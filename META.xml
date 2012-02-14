@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<module>
+    <id>rmsp</id>
+    <name>Request Managemens System for Plesk</name>
+    <description>System for working with requests from customers</description>
+    <version>0.1</version>
+    <release>1</release>
+    <icon></icon>
+    <vendor>Parallels, Inc.</vendor>
+    <url></url>
+    <plesk_min_version>11.0</plesk_min_version>
+    <os>any</os>
+</module>
