@@ -4,6 +4,9 @@
  **/
 class modules_rmsp_Model_Request extends modules_rmsp_Model_Abstract
 {
+    const STATE_UNRESOLVED = 0;
+    const STATE_RESOLVED = 1;
+
     //create table request( id INTEGER AUTO INCREMENT, state INTEGER default 0 not null, customer_id INTEGER default 0 not null, description TEXT default '' not null);
     //
     protected $_data = array(
@@ -12,34 +15,6 @@ class modules_rmsp_Model_Request extends modules_rmsp_Model_Abstract
         'customer_id' => null,
         'description' => null,
     );
-
-    public function getAll()
-    {
-        $sth = $this->_dbh->query('SELECT * FROM request');
-        $sth->setFetchMode(PDO::FETCH_ASSOC);
-        $objects = array();
-
-        while($row = $sth->fetch()) {
-            $objects[] = new self($row); 
-        }
-
-        return $objects;
-    }
-
-    public function getByCustomerId($id)
-    {
-        $sth = $this->_dbh->prepare('SELECT * FROM request WHERE customer_id = :id');
-        $sth->bindParam('id', $id);
-        $sth->execute();
-        $sth->setFetchMode(PDO::FETCH_ASSOC);
-        $objects = array();
-
-        while($row = $sth->fetch()) {
-            $objects[] = new self($row); 
-        }
-
-        return $objects;
-    }
 
     public function __construct($parameters = array())
     {
@@ -56,23 +31,5 @@ class modules_rmsp_Model_Request extends modules_rmsp_Model_Abstract
         }
 
         return null;
-    }
-
-    public function save()
-    {
-        if (isset($params['id'])) {
-            $sth = $this->_dbh->prepare("UPDATE request set state = :state, customer_id = :customer_id, description = :description WHERE id = :id");
-            $sth->execute($this->_data);
-        } else {
-            $sth = $this->_dbh->prepare("INSERT INTO request(customer_id, description) values (:customer_id, :description)");
-            $sth->execute($this->_data);
-        }
-    }
-
-    public function remove()
-    {
-        $sth = $this->_dbh->prepare("DELETE from request where id = :id");
-        $sth->bindParam('id', $this->_data['id']);
-        $sth->execute();
     }
 }

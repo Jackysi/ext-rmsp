@@ -23,28 +23,14 @@
   </head>
 
   <body>
-
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="#">Request Management System for Plesk</a>
-          <div class="nav-collapse">
-            <?php echo isset($context['menu']) ? $context['menu'] : '' ?>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-
-    <div class="container">
-      <?php echo isset($context['content']) ? $context['content'] : '' ?>
+    <div class='container'>
+        <?php
+        if (isset($context['message'])) {
+            echo "<div class='alert alert-{$context['message']['class']}'>{$context['message']['text']}</div>";
+        }
+        echo isset($context['body']) ? $context['body'] : ''
+        ?>
     </div> <!-- /container -->
-
     <!-- Le javascript
     ================================================== -->
     <!--script type="text/javascript" src="<?php echo $context['STATIC_URL'];?>js/bootstrap.js"></script-->
