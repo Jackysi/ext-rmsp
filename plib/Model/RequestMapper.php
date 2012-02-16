@@ -7,6 +7,8 @@ define('MODEL_PATH', realpath(dirname(__FILE__)));
 
 class modules_rmsp_Model_RequestMapper extends modules_rmsp_Model_Abstract
 {
+    protected $_clientsCache = null;
+
     public function get($id)
     {
         $sth = $this->_dbh->prepare('SELECT * FROM request WHERE id = :id');
@@ -38,6 +40,14 @@ class modules_rmsp_Model_RequestMapper extends modules_rmsp_Model_Abstract
 
     protected function _getClientNameById($id)
     {
+        if (is_null($this->_clientsCache)) {
+            $this->_clientsCache = array();
+        }
+
+        if (isset($this->_clientsCache[$id])) {
+            return $this->_clientsCache[$id];
+        }
+
         $request = <<<XML
 <customer>
     <get>
