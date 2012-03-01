@@ -1,5 +1,5 @@
 <?php
-require_once 'pm/Loader.php';
+/*require_once 'pm/Loader.php';
 pm_Loader::enableAutoload();
 
 $request = <<<XML
@@ -34,4 +34,4 @@ $request = <<<XML
 </ui>
 XML;
 
-pm_ApiRpc::getService('1.6.3.0')->call($request);
+pm_ApiRpc::getService('1.6.3.0')->call($request);*/

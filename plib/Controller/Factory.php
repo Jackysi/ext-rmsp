@@ -18,5 +18,6 @@ class modules_rmsp_Controller_Factory
         } else {
             echo "No access.";
         }
+        //Test changes
     }
 }
