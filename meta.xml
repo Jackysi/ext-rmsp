@@ -3,7 +3,7 @@
     <id>rmsp</id>
     <name>Request Managemens System for Plesk</name>
     <description>System for working with requests from customers</description>
-    <version>0.2</version>
+    <version>0.3</version>
     <release>1</release>
     <icon></icon>
     <vendor>Parallels, Inc.</vendor>
