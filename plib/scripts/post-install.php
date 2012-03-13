@@ -1,5 +1,5 @@
 <?php
-/*require_once 'pm/Loader.php';
+require_once 'pm/Loader.php';
 pm_Loader::enableAutoload();
 
 $request = <<<XML
@@ -27,11 +27,11 @@ $request = <<<XML
         <properties>
             <public>true</public>
             <place>domain</place>
-            <url>/modules/rmsp/</url>
+            <url>/modules/rmsp</url>
             <text>My Requests</text>
         </properties>
     </create-custombutton>
 </ui>
 XML;
 
-pm_ApiRpc::getService('1.6.3.0')->call($request);*/
+pm_ApiRpc::getService('1.6.3.0')->call($request);
