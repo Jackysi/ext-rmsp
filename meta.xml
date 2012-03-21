@@ -3,12 +3,12 @@
     <id>rmsp</id>
     <name>Request Managemens System for Plesk</name>
     <description>System for working with requests from customers</description>
-    <version>0.3</version>
+    <version>0.5</version>
     <release>1</release>
     <icon></icon>
     <vendor>Parallels, Inc.</vendor>
     <url></url>
     <plesk_min_version>11.0</plesk_min_version>
     <!--<plesk_max_version>11.0</plesk_max_version>-->
-    <build_date>Tue, 13 Mar 2012 11:18:23 +0700</build_date>
+    <build_date>Wed, 21 Mar 2012 16:42:27 +0700</build_date>
 </module>

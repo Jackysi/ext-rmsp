@@ -1,22 +1,6 @@
 <?php
-require_once 'pm/Loader.php';
-pm_Loader::enableAutoload();
 
-$request = <<<XML
-<ui>
-    <create-custombutton>
-        <owner>
-            <admin/>
-        </owner>
-        <properties>
-            <place>navigation</place>
-            <url>/modules/rmsp/</url>
-            <text>Customer Requests</text>
-        </properties>
-    </create-custombutton>
-</ui>
-XML;
-pm_ApiRpc::getService('1.6.3.0')->call($request);
+pm_Context::init('rmsp');
 
 $request = <<<XML
 <ui>
@@ -26,6 +10,8 @@ $request = <<<XML
         </owner>
         <properties>
             <public>true</public>
+            <internal>true</internal>
+            <noframe>true</noframe>
             <place>domain</place>
             <url>/modules/rmsp</url>
             <text>My Requests</text>
@@ -34,4 +20,6 @@ $request = <<<XML
 </ui>
 XML;
 
-pm_ApiRpc::getService('1.6.3.0')->call($request);
+$response = pm_ApiRpc::getService('1.6.3.5')->call($request);
+$id = (string) $response->ui->{'create-custombutton'}->result->id;
+pm_Settings::set('button-id', $id);

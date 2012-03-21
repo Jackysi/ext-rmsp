@@ -11,11 +11,6 @@ abstract class modules_rmsp_Model_Abstract
 
     public function __construct()
     {
-        # TODO Remove PRODUCT_ROOT_D and use native consts
-        $this->_dbh = new PDO('sqlite:' . PRODUCT_ROOT_D . DIRECTORY_SEPARATOR
-            . 'var' . DIRECTORY_SEPARATOR
-            . 'modules' . DIRECTORY_SEPARATOR
-            . 'rmsp' . DIRECTORY_SEPARATOR
-            . DIRECTORY_SEPARATOR . self::DATABASE_NAME);
+        $this->_dbh = new PDO('sqlite:' . pm_Context::getVarDir() . DIRECTORY_SEPARATOR . self::DATABASE_NAME);
     }
 }

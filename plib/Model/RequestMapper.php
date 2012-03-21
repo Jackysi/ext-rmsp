@@ -3,8 +3,6 @@
  * RequestMapper 
  **/
 
-define('MODEL_PATH', realpath(dirname(__FILE__)));
-
 class modules_rmsp_Model_RequestMapper extends modules_rmsp_Model_Abstract
 {
     protected $_clientsCache = null;
@@ -15,12 +13,28 @@ class modules_rmsp_Model_RequestMapper extends modules_rmsp_Model_Abstract
         $sth->bindParam('id', $id);
         $sth->execute();
         $sth->setFetchMode(PDO::FETCH_ASSOC);
-        $objects = array();
 
         while($row = $sth->fetch()) {
             return new modules_rmsp_Model_Request($row); 
         }
     }
+
+    public function getList($list)
+    {
+        foreach($list as &$val) {
+                $val = $this->_dbh->quote($val);
+        }
+
+        $in = implode(',', $list);
+        $sth = $this->_dbh->prepare('SELECT * FROM request WHERE id in ( ' . $in . ' )');
+        $sth->execute();
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
+        $objects = array();
+        while ($row = $sth->fetch()) {
+            $objects[] = new modules_rmsp_Model_Request($row);
+        }
+        return $objects;
+    } 
 
     public function getAll($state)
     {
@@ -31,6 +45,7 @@ class modules_rmsp_Model_RequestMapper extends modules_rmsp_Model_Abstract
         $objects = array();
         while($row = $sth->fetch()) {
             $request = new modules_rmsp_Model_Request($row);
+            // :TODO:
             $request->client_name = $this->_getClientNameById($request->customer_id);
             $objects[] = $request; 
         }
@@ -106,7 +121,24 @@ XML;
         }
 
         return 0;
-    } 
+    }
+
+    public function updateStateByIds(Array $requestIds, $state)
+    {
+        $in = implode(',', $requestIds);
+
+        $sth = $this->_dbh->prepare("UPDATE request SET state = :state WHERE id in (" . $in . ")");
+        $sth->bindParam(':state', $state);
+
+        $res = $sth->execute();
+
+        if (!$res) {
+            $error = $sth->errorInfo();
+            return "Error: code='{$error[0]}', message='{$error[2]}'.";
+        }
+
+        return 0;
+    }
 
     public function remove($id)
     {

@@ -1,0 +1,44 @@
+<?=$this->renderTabs($this->tabs)?>
+
+<h1>Customers requests</h1>
+<div class="list">
+    <?php
+        if (count($this->requests) == 0) {
+            echo "There are no resolved requests.";
+        } else { ?>
+    <form method="POST">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>#</th>
+                <th>State</th>
+                <th>Customer</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        <?php
+            $active = "<span class='label label-warning'>Active</span>";
+            $resolved = "<span class='label label-success'>Resolved</span>";
+            foreach($this->requests as $request) {
+                $state = $request->state === '0' ? $active : $resolved;
+
+                echo <<<HTML
+<tr>
+    <td><input type="checkbox" value="{$request->id}" name='chboxList[]'></td>
+    <td>{$request->id}</td>
+    <td>{$state}</td>
+    <td><a href="/admin/customer/overview/id/{$request->customer_id}">{$request->client_name}</a></td>
+    <td>{$request->description}</td>
+</tr>
+HTML;
+            }?>
+        </tbody>
+    </table>
+    <hr />
+    <input type='submit' class='btn btn-success' value='Reopen marked'/>
+    </form>
+    <?php } ?>
+</div>
