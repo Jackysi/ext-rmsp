@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <module>
     <id>rmsp</id>
     <name>Request Managemens System for Plesk</name>
@@ -7,8 +7,5 @@
     <release>1</release>
     <icon></icon>
     <vendor>Parallels, Inc.</vendor>
-    <url></url>
-    <plesk_min_version>11.0</plesk_min_version>
-    <!--<plesk_max_version>11.0</plesk_max_version>-->
-    <build_date>Wed, 21 Mar 2012 16:42:27 +0700</build_date>
+    <plesk_min_version>11.0.1</plesk_min_version>
 </module>
