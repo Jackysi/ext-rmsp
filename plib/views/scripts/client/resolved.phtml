@@ -1,45 +1,49 @@
-<?=$this->renderTools($this->tools)?>
-<?=$this->renderTabs($this->tabs)?>
+<?php echo $this->renderTools($this->tools); ?>
+<?php echo $this->renderTabs($this->tabs); ?>
 
 <h1>My requests</h1>
+
 <div class="list">
     <?php
         if (count($this->requests) == 0) {
-            echo "You have not any resolved requests.";
-        } else {
-    ?>
-    <form method="POST">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th></th>
-                <th>#</th>
-                <th>State</th>
-                <th>Description</th>
-            </tr>
-        </thead>
+            echo "There are no any resolved requests.";
+        } else { ?>
+        <form method="POST">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Post date</th>
+                        <th>#</th>
+                        <th>State</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
 
-        <tbody>
-        <?php
-            $active = "<span class='label label-warning'>Active</span>";
-            $resolved = "<span class='label label-success'>Resolved</span>";
-            foreach($this->requests as $request) {
-                $state = $request->state === '0' ? $active : $resolved;
-
-                echo <<<HTML
-<tr>
-    <td><input type="checkbox" value="{$request->id}" name='chboxList[]'></td>
-    <td>{$request->id}</td>
-    <td>{$state}</td>
-    <td>{$request->description}</td>
-</tr>
-HTML;
-            }?>
-        
-        </tbody>
-    </table>
-    <hr />
-    <input type='submit' class='btn btn-success' value='Reopen marked'/>
-    </form>
+                <tbody>
+                <?php foreach($this->requests as $request): ?>
+                        <?php
+                        /* :TODO: $url = $this->url(array(
+                            'controller' => 'client',
+                            'action' => 'details',
+                            'id' => $request->id,
+                        ));*/
+                        $url = pm_Context::getBaseUrl() . 'index.php/client/details/id/' . $request->id;
+                        $description = $this->escape(substr($request->description, 0, 100) . '...');
+                        ?>
+                    <tr>
+                        <td><input type="checkbox" value="<?php echo $request->id; ?>" name='chboxList[]'></td>
+                        <td><?php echo $request->post_date; ?></td>
+                        <td><a href="<?php echo $url; ?>"><?php echo $request->id; ?></a></td>
+                        <td><?php echo $request->state === '0' ? 'Active' : 'Resolved'; ?></td>
+                        <td><a href="<?php echo $url; ?>"><?php echo $description; ?></a></td>
+                    </tr>
+                <?php endforeach; ?>
+                
+                </tbody>
+            </table>
+            <hr />
+            <input type='submit' class='btn btn-success' value='Resolve marked'/>
+        </form>
     <?php } ?>
 </div>

@@ -1,0 +1,16 @@
+<p><b>State:</b> <?php echo $this->request->state === '0' ? 'Active' : 'Resolved'; ?></p>
+<p><b>Customer:</b> <a href="/admin/customer/overview/id/<?php echo $request->customer_id; ?>"><?php echo $this->request->customer_id; ?>:TODO:</a></p>
+<p><b>Description:</b>
+    <pre>
+    <?php echo $this->request->description; ?>
+    </pre>
+</p>
+<h2>Comments:</h2>
+<?php foreach($this->comments as $comment):?>
+    <p>
+        <?php echo $comment->post_date; ?> <b><?php echo $comment->client_name; //:TODO: ?></b>: <pre style="background:#ccc;padding:5px;"><?php echo $comment->text; ?></pre>
+    </p>
+<?php endforeach; ?>
+<hr />
+
+<?php echo $this->form; ?>

@@ -5,8 +5,6 @@
 
 class modules_rmsp_Model_RequestMapper extends modules_rmsp_Model_Abstract
 {
-    protected $_clientsCache = null;
-
     public function get($id)
     {
         $sth = $this->_dbh->prepare('SELECT * FROM request WHERE id = :id');
