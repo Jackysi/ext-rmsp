@@ -50,11 +50,13 @@ class AdminController extends pm_Controller_Action
 
     public function detailsAction()
     {
+        $this->view->uplevelLink = $this->_helper->url('index', 'admin');
+
         $id = $this->getRequest()->getParam('id');
 
         if (is_null($id)) {
-            $this->_status->addMessage('error', 'Request id is undefined.'); 
-            // :TODO: $this->_redirect();
+            $this->_status->addMessage('error', 'Request id is undefined.');
+            $this->_redirect('/admin/index');
         }
 
         $this->view->pageTitle = "Request # {$id}";
@@ -67,6 +69,7 @@ class AdminController extends pm_Controller_Action
 
         $commentMapper = new modules_rmsp_Model_CommentMapper();
         $this->view->comments = $commentMapper->getByRequestId($id, true);
+        $this->view->client = pm_Client::getByClientId($this->view->request->customer_id);
 
         // Form
         $form = new pm_Form_Simple();

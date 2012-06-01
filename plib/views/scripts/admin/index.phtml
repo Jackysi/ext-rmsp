@@ -27,7 +27,7 @@
                 <td><?php echo $request->id; ?></td>
                 <td><?php echo $request->state === '0' ? 'Active' : 'Resolved'; ?></td>
                 <td><a href="/admin/customer/overview/id/<?php echo $request->customer_id; ?>"><?php echo $request->client_name; ?></a></td>
-                <td><a href="<?php echo pm_Context::getBaseUrl() . 'index.php/admin/details/id/' . $request->id;?>"><?php echo $this->escape(substr($request->description, 0, 100) . '...'); ?></a></td>
+                <td><a href="<?php echo $this->url(array('controller' => 'admin', 'action' => 'details', 'id' => $request->id)); ?>"><?php echo $this->escape(substr($request->description, 0, 100) . '...'); ?></a></td>
             </tr>
             <?php endforeach; ?>
         </tbody>

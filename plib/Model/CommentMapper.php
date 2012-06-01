@@ -25,41 +25,15 @@ class modules_rmsp_Model_CommentMapper extends modules_rmsp_Model_Abstract
         $sth->setFetchMode(PDO::FETCH_ASSOC);
 
         $objects = array();
+
         while ($row = $sth->fetch()) {
             $comment = new modules_rmsp_Model_Comment($row);
-            if ($names) {
-                $comment->client_name = $this->_getClientNameById($comment->owner_id);
-            }
+            $client = pm_Client::getByClientId($comment->owner_id);
+            $comment->client_name = $client->getProperty('login');
             $objects[] = $comment;
         }
         return $objects;
     } 
-
-    protected function _getClientNameById($id)
-    {
-        if (is_null($this->_clientsCache)) {
-            $this->_clientsCache = array();
-        }
-
-        if (isset($this->_clientsCache[$id])) {
-            return $this->_clientsCache[$id];
-        }
-
-        $request = <<<XML
-<customer>
-    <get>
-        <filter>
-            <id>$id</id>
-        </filter>
-        <dataset>
-            <gen_info/>
-        </dataset>
-    </get>
-</customer>
-XML;
-        $response = pm_ApiRpc::getService('1.6.3.0')->call($request);
-        return (string) $response->customer->get->result->data->gen_info->pname;
-    }
 
     public function save(modules_rmsp_Model_Comment $comment)
     {

@@ -11,13 +11,13 @@ class IndexController extends pm_Controller_Action
 
         if ($client->isAdmin()) {
             // :TODO:
-            $this->_redirect('/index.php/admin/index');
+            $this->_redirect('/admin/index');
             //$request->setControllerName('admin');
         } else if ($client->isReseller()) {
-            $this->_redirect('/index.php/client/index');
+            $this->_redirect('/client/index');
             //$request->setControllerName('client');
         } else if ($client->isClient()) {
-            $this->_redirect('/index.php/client/index');
+            $this->_redirect('/client/index');
             //$request->setControllerName('client');
         } else {
             echo "No access.";

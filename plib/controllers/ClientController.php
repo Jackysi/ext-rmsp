@@ -83,6 +83,8 @@ class ClientController extends pm_Controller_Action
 
     public function newrequestAction()
     {
+        $this->view->uplevelLink = $this->_helper->url('index', 'client');
+
         $this->view->pageTitle = "Add new request";
 
         $form = new pm_Form_Simple();
@@ -121,10 +123,12 @@ class ClientController extends pm_Controller_Action
 
     public function detailsAction()
     {
+        $this->view->uplevelLink = $this->_helper->url('index', 'client');
+
         $id = $this->getRequest()->getParam('id');
 
         if (is_null($id)) {
-            $this->_status->addMessage('error', 'Request id is undefined.'); 
+            $this->_status->addMessage('error', 'Request id is undefined.');
             // :TODO: $this->_redirect();
         }
 
@@ -138,7 +142,7 @@ class ClientController extends pm_Controller_Action
         }
 
         $commentMapper = new modules_rmsp_Model_CommentMapper();
-        $this->view->comments = $commentMapper->getByRequestId($id);
+        $this->view->comments = $commentMapper->getByRequestId($id, true);
 
         // Form
         $form = new pm_Form_Simple();

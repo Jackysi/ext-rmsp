@@ -1,4 +1,4 @@
-<?php echo $this->renderTools($this->tools); ?>
+<?php echo $this->renderSmallTools($this->tools); ?>
 <?php echo $this->renderTabs($this->tabs); ?>
 
 <h1>My requests</h1>
@@ -23,12 +23,11 @@
                 <tbody>
                 <?php foreach($this->requests as $request): ?>
                         <?php
-                        /* :TODO: $url = $this->url(array(
-                            'controller' => 'client',
-                            'action' => 'details',
-                            'id' => $request->id,
-                        ));*/
-                        $url = pm_Context::getBaseUrl() . 'index.php/client/details/id/' . $request->id;
+                        $url = $this->url(array(
+                                'controller' => 'client',
+                                'action' => 'details',
+                                'id' => $request->id ));
+
                         $description = $this->escape(substr($request->description, 0, 100) . '...');
                         ?>
                     <tr>
@@ -39,7 +38,7 @@
                         <td><a href="<?php echo $url; ?>"><?php echo $description; ?></a></td>
                     </tr>
                 <?php endforeach; ?>
-                
+
                 </tbody>
             </table>
             <hr />
