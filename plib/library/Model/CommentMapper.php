@@ -3,7 +3,7 @@
  * CommentMapper 
  **/
 
-class modules_rmsp_Model_CommentMapper extends modules_rmsp_Model_Abstract
+class Modules_Rmsp_Model_CommentMapper extends Modules_Rmsp_Model_Abstract
 {
     public function get($id)
     {
@@ -13,7 +13,7 @@ class modules_rmsp_Model_CommentMapper extends modules_rmsp_Model_Abstract
         $sth->setFetchMode(PDO::FETCH_ASSOC);
 
         while($row = $sth->fetch()) {
-            return new modules_rmsp_Model_Comment($row); 
+            return new Modules_Rmsp_Model_Comment($row);
         }
     }
 
@@ -27,7 +27,7 @@ class modules_rmsp_Model_CommentMapper extends modules_rmsp_Model_Abstract
         $objects = array();
 
         while ($row = $sth->fetch()) {
-            $comment = new modules_rmsp_Model_Comment($row);
+            $comment = new Modules_Rmsp_Model_Comment($row);
             $client = pm_Client::getByClientId($comment->owner_id);
             $comment->client_name = $client->getProperty('login');
             $objects[] = $comment;
@@ -35,7 +35,7 @@ class modules_rmsp_Model_CommentMapper extends modules_rmsp_Model_Abstract
         return $objects;
     } 
 
-    public function save(modules_rmsp_Model_Comment $comment)
+    public function save(Modules_Rmsp_Model_Comment $comment)
     {
         if ($comment->text === '') {
             return "Error on save: Text of comment is empty.";

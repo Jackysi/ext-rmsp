@@ -5,13 +5,13 @@
 </p>
 <p><b>Description:</b>
     <pre>
-    <?php echo $this->request->description; ?>
+    <?php echo strip_tags($this->request->description); ?>
     </pre>
 </p>
 <h2>Comments:</h2>
 <?php foreach($this->comments as $comment):?>
     <p>
-        <?php echo $comment->post_date; ?>, <b><?php echo $comment->client_name; ?></b>: <pre style="background:#ccc;padding:5px;"><?php echo $comment->text; ?></pre>
+        <?php echo $comment->post_date; ?>, <b><?php echo $comment->client_name; ?></b>: <pre style="background:#ccc;padding:5px;"><?php echo strip_tags($comment->text); ?></pre>
     </p>
 <?php endforeach; ?>
 <hr />

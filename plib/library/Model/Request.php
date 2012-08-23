@@ -1,16 +1,19 @@
 <?php
 /**
- * Model Comment
+ * Model Request
  **/
-class modules_rmsp_Model_Comment extends modules_rmsp_Model_Abstract
+class Modules_Rmsp_Model_Request extends Modules_Rmsp_Model_Abstract
 {
-    //create table comment(id INTEGER PRIMARY KEY AUTOINCREMENT, request_id INTEGER not null, owner_id INTEGER default 1 not null, text TEXT default '' not null, post_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+    const STATE_UNRESOLVED = 0;
+    const STATE_RESOLVED = 1;
+
+    //create table request(id INTEGER PRIMARY KEY AUTOINCREMENT, state INTEGER default 0 not null, customer_id INTEGER default 1 not null, description TEXT default '' not null, post_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
     protected $_data = array(
         'id' => null,
         'post_date' => null,
-        'request_id'  => null,
-        'owner_id' => null,
-        'text' => null,
+        'state' => null,
+        'customer_id' => null,
+        'description' => null,
     );
 
     public function __construct($parameters = array())

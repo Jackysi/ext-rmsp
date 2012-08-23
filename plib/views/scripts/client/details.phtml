@@ -1,13 +1,13 @@
 <p><b>State:</b> <?php echo $this->request->state === '0' ? 'Active' : 'Resolved'; ?></p>
-<p><b>Description:</b>
+<p><b>Description of problem:</b>
     <br />
     <pre>
-    <?php echo $this->request->description; ?></pre>
+    <?php echo strip_tags($this->request->description); ?></pre>
 </p>
 <h2>Comments:</h2>
 <?php foreach($this->comments as $comment):?>
     <p>
-        <?php echo $comment->post_date; ?>, <b><?php echo $comment->client_name ?></b>: <pre style="background:#ccc;padding:5px;"><?php echo $comment->text; ?></pre>
+        <?php echo $comment->post_date; ?>, <b><?php echo $comment->client_name ?></b>: <pre style="background:#ccc;padding:5px;"><?php echo strip_tags($comment->text); ?></pre>
     </p>
 <?php endforeach; ?>
 <hr />

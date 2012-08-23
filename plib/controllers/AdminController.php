@@ -1,51 +1,45 @@
 <?php
-class AdminController extends pm_Controller_Action
+class AdminController extends Modules_Rmsp_BaseController
 {
-    public function init()
-    {
-        parent::init();
-
-        $this->view->tabs = array(
-            array(
-                'title' => 'Unresolved',
-                'action' => 'index'
-            ),
-            array(
-                'title' => 'Resolved',
-                'action' => 'resolved',
-            )
-        );
-
-        $session = new pm_Session();
-        $this->client = $session->getClient();
-
-        $this->view->pageTitle = "Request management system";
-    }
-
     public function indexAction()
     {
-        $mapper = new modules_rmsp_Model_RequestMapper();
-
         if ($this->getRequest()->isPost()) {
             $post = $this->getRequest()->getPost();
-            $mapper->updateStateByIds($post['chboxList'], modules_rmsp_Model_Request::STATE_RESOLVED);
+            $this->_requestMapper->updateStateByIds($post['chboxList'], Modules_Rmsp_Model_Request::STATE_RESOLVED);
             $this->_status->addMessage('info', 'Requests updated.');
         }
 
-        $this->view->requests = $mapper->getAll(modules_rmsp_Model_Request::STATE_UNRESOLVED);
+        $requests = $this->_requestMapper->getAll(Modules_Rmsp_Model_Request::STATE_UNRESOLVED);
+        $this->view->list = $this->_createAndGetRequestList($requests);
+        $this->view->list->setDataUrl(array('action' => 'get-unresolved'));
+    }
+
+    public function getUnresolvedAction()
+    {
+        $requests = $this->_requestMapper->getAll(Modules_Rmsp_Model_Request::STATE_UNRESOLVED);
+        return $this->_helper->json(
+            $this->_createAndGetRequestList($requests)->fetchData());
+    }
+
+    public function getResolvedAction()
+    {
+        $requests = $this->_requestMapper->getAll(Modules_Rmsp_Model_Request::STATE_RESOLVED);
+        return $this->_helper->json(
+            $this->_createAndGetRequestList($requests)->fetchData());
+
     }
 
     public function resolvedAction()
     {
-        $mapper = new modules_rmsp_Model_RequestMapper();
-
         if ($this->getRequest()->isPost()) {
             $post = $this->getRequest()->getPost();
-            $mapper->updateStateByIds($post['chboxList'], modules_rmsp_Model_Request::STATE_UNRESOLVED);
+            $this->_requestMapper->updateStateByIds($post['chboxList'], Modules_Rmsp_Model_Request::STATE_UNRESOLVED);
             $this->_status->addMessage('info', 'Requests updated.');
         }
 
-        $this->view->requests = $mapper->getAll(modules_rmsp_Model_Request::STATE_RESOLVED);
+        $requests = $this->_requestMapper->getAll(Modules_Rmsp_Model_Request::STATE_RESOLVED);
+        $this->view->list = $this->_createAndGetRequestList($requests);
+        $this->view->list->setDataUrl(array('action' => 'get-resolved'));
     }
 
     public function detailsAction()
@@ -61,13 +55,12 @@ class AdminController extends pm_Controller_Action
 
         $this->view->pageTitle = "Request # {$id}";
 
-        $mapper = new modules_rmsp_Model_RequestMapper();
-        $this->view->request = $mapper->get($id);
+        $this->view->request = $this->_requestMapper->get($id);
         if (is_null($this->view->request)) {
             $this->_status->addMessage('error', 'Can\'t find request with id in database.');
         }
 
-        $commentMapper = new modules_rmsp_Model_CommentMapper();
+        $commentMapper = new Modules_Rmsp_Model_CommentMapper();
         $this->view->comments = $commentMapper->getByRequestId($id, true);
         $this->view->client = pm_Client::getByClientId($this->view->request->customer_id);
 
@@ -96,7 +89,7 @@ class AdminController extends pm_Controller_Action
                 'request_id' => $id,
             );
 
-            $comment = new modules_rmsp_Model_Comment($params);
+            $comment = new Modules_Rmsp_Model_Comment($params);
             $res = $commentMapper->save($comment);
 
             if ($res === 0 ) {

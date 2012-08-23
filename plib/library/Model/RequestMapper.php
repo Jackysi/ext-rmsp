@@ -3,7 +3,7 @@
  * RequestMapper 
  **/
 
-class modules_rmsp_Model_RequestMapper extends modules_rmsp_Model_Abstract
+class Modules_Rmsp_Model_RequestMapper extends Modules_Rmsp_Model_Abstract
 {
     public function get($id)
     {
@@ -13,7 +13,7 @@ class modules_rmsp_Model_RequestMapper extends modules_rmsp_Model_Abstract
         $sth->setFetchMode(PDO::FETCH_ASSOC);
 
         while($row = $sth->fetch()) {
-            return new modules_rmsp_Model_Request($row); 
+            return new Modules_Rmsp_Model_Request($row);
         }
     }
 
@@ -29,7 +29,7 @@ class modules_rmsp_Model_RequestMapper extends modules_rmsp_Model_Abstract
         $sth->setFetchMode(PDO::FETCH_ASSOC);
         $objects = array();
         while ($row = $sth->fetch()) {
-            $objects[] = new modules_rmsp_Model_Request($row);
+            $objects[] = new Modules_Rmsp_Model_Request($row);
         }
         return $objects;
     } 
@@ -42,8 +42,7 @@ class modules_rmsp_Model_RequestMapper extends modules_rmsp_Model_Abstract
         $sth->setFetchMode(PDO::FETCH_ASSOC);
         $objects = array();
         while($row = $sth->fetch()) {
-            $request = new modules_rmsp_Model_Request($row);
-            // :TODO:
+            $request = new Modules_Rmsp_Model_Request($row);
             $request->client_name = $this->_getClientNameById($request->customer_id);
             $objects[] = $request; 
         }
@@ -87,13 +86,13 @@ XML;
         $objects = array();
 
         while($row = $sth->fetch()) {
-            $objects[] = new modules_rmsp_Model_Request($row); 
+            $objects[] = new Modules_Rmsp_Model_Request($row);
         }
 
         return $objects;
     }
 
-    public function save(modules_rmsp_Model_Request $request)
+    public function save(Modules_Rmsp_Model_Request $request)
     {
         if ($request->description === '') {
             return "Error on save: Description of request is empty.";

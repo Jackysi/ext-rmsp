@@ -1,39 +1,9 @@
 <?php echo $this->renderTabs($this->tabs); ?>
 
 <h1>Customers requests</h1>
-<div class="list">
-    <?php
-        if (count($this->requests) == 0) {
-            echo "There are no resolved requests.";
-        } else { ?>
-    <form method="POST">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th></th>
-                <th>#</th>
-                <th>Post date</th>
-                <th>State</th>
-                <th>Customer</th>
-                <th>Description</th>
-            </tr>
-        </thead>
 
-        <tbody>
-        <?php foreach($this->requests as $request):?>
-            <tr>
-                <td><input type="checkbox" value="<?php echo $request->id; ?>" name='chboxList[]'></td>
-                <td><?php echo $request->post_date; ?></td>
-                <td><?php echo $request->id; ?></td>
-                <td><?php echo $request->state === '0' ? 'Active' : 'Resolved'; ?></td>
-                <td><a href="/admin/customer/overview/id/<?php echo $request->customer_id; ?>"><?php echo $request->client_name; ?></a></td>
-                <td><a href="<?php echo $this->url(array('controller' => 'admin', 'action' => 'details', 'id' => $request->id)); ?>"><?php echo $this->escape(substr($request->description, 0, 100) . '...'); ?></a></td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+<form method="POST">
+    <?php echo $this->renderList($this->list); ?>
     <hr />
     <input type='submit' class='btn btn-success' value='Reopen selected'/>
-    </form>
-    <?php } ?>
-</div>
+</form>

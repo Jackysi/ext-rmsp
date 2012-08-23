@@ -3,46 +3,8 @@
 
 <h1>My requests</h1>
 
-<div class="list">
-    <?php
-        if (count($this->requests) == 0) {
-            echo "You have no any active requests.";
-        } else { ?>
-        <form method="POST">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Post date</th>
-                        <th>#</th>
-                        <th>State</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                <?php foreach($this->requests as $request): ?>
-                        <?php
-                        $url = $this->url(array(
-                                'controller' => 'client',
-                                'action' => 'details',
-                                'id' => $request->id ));
-
-                        $description = $this->escape(substr($request->description, 0, 100) . '...');
-                        ?>
-                    <tr>
-                        <td><input type="checkbox" value="<?php echo $request->id; ?>" name='chboxList[]'></td>
-                        <td><?php echo $request->post_date; ?></td>
-                        <td><a href="<?php echo $url; ?>"><?php echo $request->id; ?></a></td>
-                        <td><?php echo $request->state === '0' ? 'Active' : 'Resolved'; ?></td>
-                        <td><a href="<?php echo $url; ?>"><?php echo $description; ?></a></td>
-                    </tr>
-                <?php endforeach; ?>
-
-                </tbody>
-            </table>
-            <hr />
-            <input type='submit' class='btn btn-success' value='Resolve marked'/>
-        </form>
-    <?php } ?>
-</div>
+<form method="POST">
+    <?php echo $this->renderList($this->list); ?>
+    <hr />
+    <input type='submit' class='btn btn-success' value='Mark selected as resolved'/>
+</form>

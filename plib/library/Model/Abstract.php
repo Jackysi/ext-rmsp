@@ -3,7 +3,7 @@
  * Abstract Model
  **/
 
-abstract class modules_rmsp_Model_Abstract
+abstract class Modules_Rmsp_Model_Abstract
 {
     protected $_dbh = null;
 

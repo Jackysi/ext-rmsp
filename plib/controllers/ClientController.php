@@ -1,21 +1,10 @@
 <?php
 
-class ClientController extends pm_Controller_Action
+class ClientController extends Modules_Rmsp_BaseController
 {
     public function init()
     {
         parent::init();
-
-        $this->view->tabs = array(
-            array(
-                'title' => 'Unresolved',
-                'action' => 'index'
-            ),
-            array(
-                'title' => 'Resolved',
-                'action' => 'resolved',
-            )
-        );
 
         $baseUrl = pm_Context::getBaseUrl();
 
@@ -28,57 +17,69 @@ class ClientController extends pm_Controller_Action
             )
         );
 
-
-        $session = new pm_Session();
-        $this->client = $session->getClient();
-
-        $this->view->pageTitle = "Request management system";
     }
 
     public function indexAction()
     {
-        $mapper = new modules_rmsp_Model_RequestMapper();
-
         if ($this->getRequest()->isPost()) {
             $post = $this->getRequest()->getPost();
-            $requests = $mapper->getList($post['chboxList']);
+            $requests = $this->_requestMapper->getList($post['chboxList']);
             $client_id = $this->client->getId();
 
             foreach ($requests as $request) {
                 if ($request->customer_id == $client_id) {
-                    $request->state = modules_rmsp_Model_Request::STATE_RESOLVED;
-                    $mapper->save($request);
+                    $request->state = Modules_Rmsp_Model_Request::STATE_RESOLVED;
+                    $this->_requestMapper->save($request);
                 }
             }
 
             $this->_status->addMessage('info', 'Request(s) updated.');
         }
 
-        $this->view->requests = $mapper->getByClientId($this->client->getId(),
-            modules_rmsp_Model_Request::STATE_UNRESOLVED);
+        $requests = $this->_requestMapper->getByClientId($this->client->getId(),
+            Modules_Rmsp_Model_Request::STATE_UNRESOLVED);
+        $this->view->list = $this->_createAndGetRequestList($requests);
+        $this->view->list->setDataUrl(array('action' => 'get-unresolved'));
+    }
+
+    public function getUnresolvedAction()
+    {
+        $requests = $this->_requestMapper->getByClientId($this->client->getId(),
+            Modules_Rmsp_Model_Request::STATE_UNRESOLVED);
+        return $this->_helper->json(
+            $this->_createAndGetRequestList($requests)->fetchData());
+    }
+
+    public function getResolvedAction()
+    {
+        $requests = $this->_requestMapper->getByClientId($this->client->getId(),
+            Modules_Rmsp_Model_Request::STATE_RESOLVED);
+        return $this->_helper->json(
+            $this->_createAndGetRequestList($requests)->fetchData());
+
     }
 
     public function resolvedAction()
     {
-        $mapper = new modules_rmsp_Model_RequestMapper();
-
         if ($this->getRequest()->isPost()) {
             $post = $this->getRequest()->getPost();
-            $requests = $mapper->getList($post['chboxList']);
+            $requests = $this->_requestMapper->getList($post['chboxList']);
             $client_id = $this->client->getId();
 
             foreach ($requests as $request) {
                 if ($request->customer_id == $client_id) {
-                    $request->state = modules_rmsp_Model_Request::STATE_UNRESOLVED;
-                    $mapper->save($request);
+                    $request->state = Modules_Rmsp_Model_Request::STATE_UNRESOLVED;
+                    $this->_requestMapper->save($request);
                 }
             }
 
             $this->_status->addMessage('info', 'Request(s) updated.');
         }
 
-        $this->view->requests = $mapper->getByClientId($this->client->getId(),
-            modules_rmsp_Model_Request::STATE_RESOLVED);
+        $requests = $this->_requestMapper->getByClientId($this->client->getId(),
+            Modules_Rmsp_Model_Request::STATE_RESOLVED);
+        $this->view->list = $this->_createAndGetRequestList($requests);
+        $this->view->list->setDataUrl(array('action' => 'get-resolved'));
     }
 
     public function newrequestAction()
@@ -90,9 +91,11 @@ class ClientController extends pm_Controller_Action
         $form = new pm_Form_Simple();
         $form->addElement('textarea', 'description', array(
             'label' => 'Description of problem',
-            'value' => '',
+            'value' => 'Steps to reproduce:',
             'required' => true,
+            'cols' => 24,
             'rows' => '8',
+            'style' => 'width:100%;'
         ));
 
         $form->addControlButtons(array(
@@ -107,9 +110,8 @@ class ClientController extends pm_Controller_Action
                 'description' => $formValues['description'],
             );
 
-            $request = new modules_rmsp_Model_Request($params);
-            $mapper = new modules_rmsp_Model_RequestMapper();
-            $res = $mapper->save($request);
+            $request = new Modules_Rmsp_Model_Request($params);
+            $res = $this->_requestMapper->save($request);
             if ($res === 0 ) {
                 $this->_status->addMessage('info', 'Request created');
                 $this->_helper->json(array('redirect' => 'index'));
@@ -129,19 +131,18 @@ class ClientController extends pm_Controller_Action
 
         if (is_null($id)) {
             $this->_status->addMessage('error', 'Request id is undefined.');
-            // :TODO: $this->_redirect();
+            $this->_redirect('/client/index');
         }
 
         $this->view->pageTitle = "Request # {$id}";
 
-        $mapper = new modules_rmsp_Model_RequestMapper();
-        $this->view->request = $mapper->get($id);
+        $this->view->request = $this->_requestMapper->get($id);
 
         if (is_null($this->view->request)) {
-            $this->_status->addMessage('error', 'Can\'t find request with id in database.');
+            $this->_status->addMessage('error', "Can't find request with id = $id in database.");
         }
 
-        $commentMapper = new modules_rmsp_Model_CommentMapper();
+        $commentMapper = new Modules_Rmsp_Model_CommentMapper();
         $this->view->comments = $commentMapper->getByRequestId($id, true);
 
         // Form
@@ -169,7 +170,7 @@ class ClientController extends pm_Controller_Action
                 'request_id' => $id,
             );
 
-            $comment = new modules_rmsp_Model_Comment($params);
+            $comment = new Modules_Rmsp_Model_Comment($params);
             $res = $commentMapper->save($comment);
 
             if ($res === 0 ) {
