@@ -2,11 +2,10 @@
 <module>
     <id>rmsp</id>
     <name>Request Managemens System for Plesk</name>
-    <description>System for working with requests from customers</description>
-    <version>0.6dfaj/version>
-    <release>1asdfa</release>
+    <description>System for working with requests from customers.</description>
+    <version>0.6</version>
+    <release>1</release>
     <icon></icon>
     <vendor>Parallels, Inc.</vendor>
-    <encoder>ioncube</encoder>
-    <plesk_min_version>asdfasd11.0.1</plesk_min_version>
+    <plesk_min_version>11.0.1</plesk_min_version>
 </module>
