@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <id>rmsp</id>
-    <name>Request Managemens System for Plesk</name>
+    <name>Request Management System for Plesk</name>
     <description>System for working with requests from customers.</description>
     <version>0.6</version>
     <release>1</release>
