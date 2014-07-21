@@ -1,5 +1,5 @@
 <?php
-
+// Copyright 1999-2014. Parallels IP Holdings GmbH. All Rights Reserved.
 class Modules_Rmsp_BaseController extends pm_Controller_Action
 {
     public function init()
