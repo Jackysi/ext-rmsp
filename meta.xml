@@ -5,8 +5,8 @@
     <name>Request Management System for Plesk</name>
     <description>System for working with requests from customers.</description>
     <version>0.6</version>
-    <release>4</release>
+    <release>5</release>
     <icon></icon>
-    <vendor>Parallels, Inc.</vendor>
+    <vendor>Parallels</vendor>
     <plesk_min_version>11.0.1</plesk_min_version>
 </module>
