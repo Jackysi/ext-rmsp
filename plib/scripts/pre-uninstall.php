@@ -1,5 +1,5 @@
 <?php
-// Copyright 1999-2014. Parallels IP Holdings GmbH.
+// Copyright 1999-2015. Parallels IP Holdings GmbH.
 pm_Context::init('rmsp');
 
 $id = pm_Settings::get('button-id');
