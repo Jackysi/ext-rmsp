@@ -6,7 +6,7 @@
     <description>System for working with requests from customers.</description>
     <version>0.6</version>
     <release>8</release>
-    <vendor>Odin</vendor>
+    <vendor>Plesk</vendor>
     <url>https://github.com/plesk/ext-rmsp</url>
     <plesk_min_version>11.0.1</plesk_min_version>
 </module>
