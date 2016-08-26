@@ -1,4 +1,6 @@
-Requests Tracker
+# Requests Tracker
+
+[![Apache 2](http://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
 The extension adds a request tracking system, which customers can use to file requests to the Plesk administrator. The administrator can comment on request tickets and close them.
 
