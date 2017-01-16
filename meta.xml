@@ -4,8 +4,9 @@
     <id>rmsp</id>
     <name>Request Management System for Plesk</name>
     <description>System for working with requests from customers.</description>
+    <category>example</category>
     <version>0.6</version>
-    <release>9</release>
+    <release>10</release>
     <vendor>Plesk</vendor>
     <url>https://github.com/plesk/ext-rmsp</url>
     <plesk_min_version>11.0.1</plesk_min_version>
