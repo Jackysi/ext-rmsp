@@ -14,4 +14,4 @@ $request = <<<XML
 </ui>
 XML;
 
-pm_ApiRpc::getService('1.6.3.0')->call($request);
+pm_ApiRpc::getService('1.6.3.5')->call($request);
