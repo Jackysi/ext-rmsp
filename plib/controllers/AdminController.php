@@ -6,7 +6,10 @@ class AdminController extends Modules_Rmsp_BaseController
     {
         if ($this->getRequest()->isPost()) {
             $post = $this->getRequest()->getPost();
-            $this->_requestMapper->updateStateByIds($post['chboxList'], Modules_Rmsp_Model_Request::STATE_RESOLVED);
+            $this->_requestMapper->updateStateByIds(
+                isset($post['chboxList']) ? $post['chboxList'] : array() ,
+                Modules_Rmsp_Model_Request::STATE_RESOLVED
+            );
             $this->_status->addMessage('info', 'Requests updated.');
         }
 
@@ -34,7 +37,10 @@ class AdminController extends Modules_Rmsp_BaseController
     {
         if ($this->getRequest()->isPost()) {
             $post = $this->getRequest()->getPost();
-            $this->_requestMapper->updateStateByIds($post['chboxList'], Modules_Rmsp_Model_Request::STATE_UNRESOLVED);
+            $this->_requestMapper->updateStateByIds(
+                isset($post['chboxList']) ? $post['chboxList'] : array(),
+                Modules_Rmsp_Model_Request::STATE_UNRESOLVED
+            );
             $this->_status->addMessage('info', 'Requests updated.');
         }
 
